@@ -1,0 +1,27 @@
+[project]
+name = "calc-work-hours"
+version = "0.2023.0"
+
+authors = [
+  { name="Yosef HE", email="h7w8@qq.com"},
+]
+
+description = "Given two datetimes, calculate the working hours between them."
+readme = "README.md"
+license = { file="LICENSE" }
+requires-python = ">=3.11"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+keywords = [
+    'work hour', 'workhour', 'working hour', 'workinghour', 
+		'work day', 'workday', 'working day', 'workingday', 
+]
+
+dependencies = [
+]
+
+[project.urls]
+"Homepage" = "https://github.com/williamxhero/work_hours"
