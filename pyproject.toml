@@ -1,6 +1,6 @@
 [project]
 name = "calc-work-hours"
-version = "0.2023.0"
+version = "0.2024.0"
 
 authors = [
   { name="Yosef HE", email="h7w8@qq.com"},
