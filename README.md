@@ -4,37 +4,72 @@
 Calculate the length of work hours between two `DateTime`s. This tool was originally used to calculate task hours. Given the task start time and the task end time, the task hours are calculated. It will exclude China's statutory holidays and weekends. Because China's holidays are released once a year, the second version number of this tool is the latest supported year, such as: `v0.2023` means that it has been updated to 2023 holidays and adjustments. The starting year is 2015. Dates earlier than 2015 or later then the version year will only exclude weekends.
 
 
-## install
+## Install
 目前只支持 python 3.11 及更高：
 
 Currently only supports python 3.11 and higher:
 
 `pip311 install calc_work_hours`
 
-## usage
+## Usage
 ```python
-from datetime import datetime, time
-
 from work_hours import WorkHours
-
 wh = WorkHours()
+```
 
-#计算某天是否工作日 
-# #Calculate whether a day is a working day
+### 计算两个`datetime`之间的工作时间长度(小时)  
+### Calculate the working time duration (hours) between two `datetime`s
+
+``` python
+from datetime import datetime
+
+ret = wh.calc(datetime(2023, 9, 22, 1, 1, 1), datetime(2023, 10, 4, 18, 0, 0)) 
+print(ret) 
+# 40.0 (hours)
+```
+
+### 计算`datetime`是否工作日 
+### Calculate whether a `datetime` is a working day
+
+``` python
 ret = wh.is_workday(datetime(2023, 10, 2))  
+print(ret) 
 # 周一，但是 False
 # Monday, but False
-print(ret) 
 
 ret = wh.is_workday(datetime(2023, 10, 7))
+print(ret) 
 # 周六，但是 True
 # Saturday, but True
-print(ret) 
-
-#计算两个日期之间的工作时间
-#Calculate the working time between two dates
-ret = wh.calc(datetime(2023, 9, 22, 1, 1, 1), datetime(2023, 10, 4, 18, 0, 0)) 
-# 40 (hours)
-print(ret) 
-
 ```
+### 计算某个`datetime`是否为工作时间，需要动态的考虑边界。比如9:00，如果（某段时间）从9点开始，那9点是工作时间，如果是（某段时间）到9点结束，那么就不是工作时间。
+### Calculate whether a `datetime` is working time, you need to dynamically consider the boundary. For example, 9:00, if (a period of time) starts at 9 o'clock, then 9 o'clock is working time, if (a period of time) ends at 9 o'clock, then 9 is not working time.
+
+``` python
+is_work = wh.is_workhours(datetime(2023, 9, 22, 9, 0, 0), )
+print(is_work)
+# True. The time frame starting from 9:00 ~ 
+
+is_work = wh.is_workhours(datetime(2023, 9, 22, 9, 0, 0), False)
+print(is_work)
+# False. The time frame ending at 9:00 ~ 
+```
+### 计算`datetime`的下/上n个工作日的时间
+### Calculate n working days after/before a certain `datetime`
+
+``` python
+dt = wh.add_workdays(datetime(2023, 9, 22), 5)
+print(dt)
+# 2023-09-28 18:00
+```
+09-22|09-23|09-24|09-25|09-26|09-27|09-28
+-|-|-|-|-|-|-
+ fri | sat | sun | mon | tue | wed | thu
+ 1   |  .. |  .. |  2  |  3  |  4  | 5
+
+``` python
+dt = wh.add_workdays(datetime(2023, 9, 22), -5)
+print(dt)
+# 2023-09-15 09:00
+```
+
